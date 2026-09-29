@@ -74,7 +74,7 @@ a {
 }
 
 button {
-    font-family: inherit;
+    border: 0;
 }
 
 .app {
@@ -109,14 +109,14 @@ button {
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1000;
     width: 100%;
+    z-index: 1000;
     background: var(--background);
 }
 
 
 /* =========================================================
-   HEADER - CONTACT BAR
+   HEADER - CONTACT
 ========================================================= */
 
 .header__contact {
@@ -144,7 +144,7 @@ button {
 
 
 /* =========================================================
-   HEADER - MAIN
+   HEADER - CONTENT
 ========================================================= */
 
 .header__content {
@@ -161,7 +161,7 @@ button {
 
 
 /* =========================================================
-   LOGO
+   HEADER - LOGO
 ========================================================= */
 
 .logo {
@@ -191,7 +191,7 @@ button {
 
 
 /* =========================================================
-   NAVIGATION
+   HEADER - NAV
 ========================================================= */
 
 .nav {
@@ -199,9 +199,8 @@ button {
     top: 100%;
     left: 0;
     width: min(82%, 320px);
-    max-width: 320px;
-    height: calc(100vh - 98px);
-    padding: 20px 18px;
+    height: calc(100dvh - 98px);
+    padding: 20px 18px calc(25px + env(safe-area-inset-bottom));
     background: #fff;
     transform: translateX(-100%);
     transition: transform .3s ease;
@@ -246,7 +245,7 @@ button {
 
 
 /* =========================================================
-   HAMBURGER
+   HEADER - HAMBURGER
 ========================================================= */
 
 .hamburger {
@@ -279,7 +278,7 @@ button {
 
 
 /* =========================================================
-   DROPDOWN
+   HEADER - DROPDOWN
 ========================================================= */
 
 .dropdown {
@@ -309,7 +308,6 @@ button {
     padding: 4px 0;
     background: #f8f8f8;
     border-radius: 6px;
-    box-shadow: none;
 }
 
 .dropdown--open .dropdown__content {
@@ -338,7 +336,7 @@ button {
 
 
 /* =========================================================
-   SEARCH ICON
+   HEADER - SEARCH ICON
 ========================================================= */
 
 .nav__icon {
@@ -360,7 +358,7 @@ button {
 
 
 /* =========================================================
-   SEARCH DROPDOWN
+   HEADER - SEARCH
 ========================================================= */
 
 .search-wrapper {
@@ -416,14 +414,14 @@ button {
 
 .search-icon-input {
     flex-shrink: 0;
-    padding: 0 0 0 11px;
+    padding-left: 11px;
     color: #888;
 }
 
 .search-box input {
     flex: 1;
-    min-width: 0;
     width: 100%;
+    min-width: 0;
     padding: 10px;
     border: none;
     outline: none;
@@ -433,22 +431,21 @@ button {
 }
 
 .search-box button {
-    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 38px;
     height: 38px;
+    flex-shrink: 0;
     border: none;
     background: transparent;
     color: #888;
     cursor: pointer;
 }
 
-.search-box button i {
-    font-size: 13px;
-}
-
 
 /* =========================================================
-   HEADER CONTACT SCROLL
+   HEADER - CONTACT SCROLL
 ========================================================= */
 
 .header.hide-contact .header__contact {
@@ -520,7 +517,7 @@ button {
 
 
 /* =========================================================
-   SECTION TITLES
+   SECTION TITLE
 ========================================================= */
 
 .categories {
@@ -687,6 +684,7 @@ button {
 }
 
 .product-title p {
+    display: block;
     width: 100%;
     margin: 0;
     overflow: hidden;
@@ -818,7 +816,7 @@ button {
 
 
 /* =========================================================
-   PRODUCT THUMBNAILS
+   PRODUCT DETAIL - THUMBNAILS
 ========================================================= */
 
 .product-thumbs {
@@ -831,6 +829,7 @@ button {
 }
 
 .product-thumbs .swiper-slide {
+    height: auto;
     cursor: pointer;
     opacity: .55;
 }
@@ -862,7 +861,7 @@ button {
 
 
 /* =========================================================
-   PRODUCT DETAIL INFO
+   PRODUCT DETAIL - INFO
 ========================================================= */
 
 .product-detail-info {
@@ -1028,7 +1027,7 @@ button {
 
 
 /* =========================================================
-   PRODUCT CONTACT BUTTON
+   PRODUCT CONTACT
 ========================================================= */
 
 .product-contact-btn {
@@ -1045,6 +1044,7 @@ button {
     border-radius: 8px;
     font-size: 15px;
     font-weight: 700;
+    line-height: 1.35;
     text-align: center;
     transition: background .25s ease, transform .25s ease;
 }
@@ -1241,7 +1241,6 @@ button {
     flex-shrink: 0;
     color: #aaa;
     font-size: 13px;
-    font-weight: 400;
 }
 
 
@@ -1329,7 +1328,7 @@ button {
 }
 
 .about-note {
-    background: linear-gradient(135deg, #FFFAF7, #fff);
+    background: linear-gradient( 135deg, #FFFAF7, #fff);
     border-left: 4px solid var(--primary);
 }
 
@@ -1420,6 +1419,7 @@ button {
     align-items: center;
     justify-content: center;
     min-height: 46px;
+    flex-shrink: 0;
     padding: 12px 22px;
     background: var(--primary);
     color: #fff;
@@ -1639,11 +1639,6 @@ button {
     padding-bottom: 60px;
 }
 
-
-/* =========================================================
-   CONTACT TITLE
-========================================================= */
-
 .contact-title {
     width: 100%;
     max-width: 750px;
@@ -1752,10 +1747,6 @@ button {
     font-size: 14px;
     font-weight: 700;
     overflow-wrap: anywhere;
-}
-
-.contact-card a {
-    transition: color .2s ease;
 }
 
 .contact-card a:hover {
@@ -1941,10 +1932,11 @@ button {
     .header__contact p:nth-child(1) {
         display: block;
     }
+    /* NAV */
     .nav {
         width: 360px;
     }
-    /* PRODUCT GRID */
+    /* PRODUCTS */
     .products {
         grid-template-columns: repeat(3, minmax(0, 1fr));
         column-gap: 15px;
@@ -1999,6 +1991,7 @@ button {
     .header__contact p:nth-child(1) {
         display: block;
     }
+    /* NAV */
     .nav {
         position: static;
         width: auto;
@@ -2060,7 +2053,6 @@ button {
         left: 0;
         width: 100%;
         height: 25px;
-        background: transparent;
     }
     .dropdown--open .dropdown__content {
         display: block;
@@ -2128,12 +2120,6 @@ button {
     .logo-text {
         font-size: 17px;
     }
-    .nav__list {
-        gap: 40px;
-    }
-    .nav__link {
-        font-size: 16px;
-    }
     .products {
         grid-template-columns: repeat(5, minmax(0, 1fr));
         column-gap: 16px;
@@ -2163,7 +2149,7 @@ button {
 
 /* =========================================================
    MOBILE
-   <= 767px
+   360px - 767px
 ========================================================= */
 
 @media (max-width: 767px) {
@@ -2171,7 +2157,6 @@ button {
        GLOBAL
     ===================================================== */
     .container {
-        width: 100%;
         padding-left: 16px;
         padding-right: 16px;
     }
@@ -2180,19 +2165,18 @@ button {
     ===================================================== */
     .header__contact {
         min-height: 36px;
-        padding-top: 8px;
-        padding-bottom: 8px;
-        padding-left: 16px;
-        padding-right: 16px;
+        padding: 8px 16px;
     }
     .header__contact p {
+        max-width: 100%;
+        overflow: hidden;
         font-size: 11px;
-        line-height: 1.35;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
     .header__content {
         min-height: 58px;
-        padding-left: 16px;
-        padding-right: 16px;
+        padding: 0 16px;
     }
     .logo img {
         width: 35px;
@@ -2206,12 +2190,12 @@ button {
         width: 24px;
     }
     /* =====================================================
-       MOBILE NAV
+       NAV
     ===================================================== */
     .nav {
         width: min(84%, 320px);
         height: calc(100dvh - 94px);
-        padding: 18px 17px calc(24px + env(safe-area-inset-bottom));
+        padding: 18px 17px calc( 24px + env(safe-area-inset-bottom));
     }
     .nav__list {
         gap: 3px;
@@ -2219,11 +2203,6 @@ button {
     .nav__link {
         min-height: 44px;
         font-size: 14px;
-    }
-    .dropdown__content a {
-        min-height: 42px;
-        padding: 10px;
-        font-size: 13px;
     }
     /* =====================================================
        SEARCH
@@ -2238,22 +2217,17 @@ button {
        BANNER
     ===================================================== */
     /*
-       Quan trọng:
-       Mobile không ép banner về tỉ lệ desktop 1920/780.
-       Ảnh sẽ giữ đúng tỉ lệ thật của banner.
+       Mobile giữ đúng tỉ lệ ảnh thật.
+       Không ép về tỉ lệ desktop.
     */
     .banner {
-        width: 100%;
-        height: auto;
         aspect-ratio: auto;
     }
     .banner .swiper {
-        width: 100%;
         height: auto;
         aspect-ratio: auto;
     }
     .banner .swiper-slide {
-        width: 100%;
         height: auto;
     }
     .banner img,
@@ -2264,7 +2238,7 @@ button {
         background: #f7f7f7;
     }
     .banner .swiper-pagination-bullets {
-        bottom: 9px !important;
+        bottom: 8px !important;
     }
     .banner .swiper-pagination-bullet {
         width: 6px;
@@ -2288,50 +2262,33 @@ button {
         font-size: 12px;
     }
     /* =====================================================
-       PRODUCT GRID
+       PRODUCTS
     ===================================================== */
     .products {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         column-gap: 12px;
-        row-gap: 24px;
+        row-gap: 23px;
     }
-    .card-product {
-        min-width: 0;
-    }
-    /* =====================================================
-       PRODUCT IMAGE
-    ===================================================== */
-    .product-img {
-        width: 100%;
-        aspect-ratio: 1 / 1;
-        border-radius: 7px;
-    }
-    /* =====================================================
-       PRODUCT INFO
-    ===================================================== */
     .product-info {
         padding-top: 8px;
     }
     .product-category {
         margin-bottom: 3px;
         font-size: 9px;
-        letter-spacing: .35px;
     }
     /*
-       Cho tên sản phẩm 2 dòng trên mobile,
-       tránh bị cụt 1 dòng quá nhiều.
+       Tên sản phẩm có tối đa 2 dòng
     */
     .product-title p {
         display: -webkit-box;
-        width: 100%;
         overflow: hidden;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
         line-clamp: 2;
         white-space: normal;
-        text-overflow: ellipsis;
         font-size: 12px;
         line-height: 1.4;
+        text-overflow: ellipsis;
     }
     .product-price {
         margin-top: 5px;
@@ -2360,65 +2317,108 @@ button {
     }
     /* =====================================================
        PRODUCT DETAIL
+       MOBILE COMMON
     ===================================================== */
     .product-detail-section {
-        padding: 18px 0 38px;
+        padding: 14px 0 40px;
     }
     .product-detail {
         display: flex;
         flex-direction: column;
-        gap: 22px;
-    }
-    .product-gallery {
-        width: 100%;
-    }
-    .product-main-image {
-        aspect-ratio: 1 / 1;
-        border-radius: 9px;
-    }
-    .product-main-image img {
-        padding: 7px;
-    }
-    .product-thumbs {
-        margin-top: 9px;
-    }
-    .product-thumb {
-        border-radius: 6px;
-    }
-    .product-thumb img {
-        padding: 3px;
+        gap: 0;
     }
     /* =====================================================
-       DETAIL INFO
+       PRODUCT DETAIL - GALLERY
+    ===================================================== */
+    .product-gallery {
+        width: 100%;
+        min-width: 0;
+    }
+    .product-main-slider {
+        width: 100%;
+        overflow: hidden;
+    }
+    /*
+       Dùng 4:3 thay vì 1:1 để ảnh chiếm
+       vừa đủ màn hình mobile.
+    */
+    .product-main-image {
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        overflow: hidden;
+        background: #f7f7f7;
+        border: 1px solid #eeeeee;
+        border-radius: 10px;
+    }
+    .product-main-image img {
+        width: 100%;
+        height: 100%;
+        padding: 9px;
+        object-fit: contain;
+    }
+    /* =====================================================
+       PRODUCT DETAIL - THUMBNAILS
+    ===================================================== */
+    .product-thumbs {
+        width: 100%;
+        margin-top: 9px;
+        overflow: hidden;
+    }
+    .product-thumbs .swiper-wrapper {
+        width: 100%;
+    }
+    .product-thumbs .swiper-slide {
+        height: auto;
+        opacity: .55;
+    }
+    .product-thumb {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        background: #f8f8f8;
+        border-radius: 7px;
+    }
+    .product-thumb img {
+        width: 100%;
+        height: 100%;
+        padding: 3px;
+        object-fit: contain;
+    }
+    /* =====================================================
+       PRODUCT DETAIL - INFO
     ===================================================== */
     .product-detail-info {
-        padding-top: 0;
+        width: 100%;
+        padding-top: 18px;
     }
     .product-detail-category {
+        max-width: 100%;
         margin-bottom: 6px;
-        font-size: 9px;
-        letter-spacing: .55px;
+        color: var(--primary);
+        font-size: 10px;
+        letter-spacing: .6px;
     }
     .product-detail-info h1 {
         margin-bottom: 10px;
-        font-size: 20px;
+        font-size: clamp( 19px, 5.2vw, 22px);
         line-height: 1.35;
     }
     .product-detail-price {
-        font-size: 22px;
+        font-size: clamp( 21px, 6vw, 24px);
+        line-height: 1.25;
     }
     .product-detail-line {
-        margin: 16px 0;
+        margin: 17px 0 12px;
     }
     /* =====================================================
-       META
+       PRODUCT META
     ===================================================== */
     .product-meta {
-        gap: 8px;
+        gap: 0;
     }
     .product-meta-item {
+        min-height: 40px;
         gap: 12px;
-        padding-bottom: 9px;
+        padding: 8px 0;
     }
     .product-meta-item span,
     .product-meta-item strong {
@@ -2432,54 +2432,55 @@ button {
        DESCRIPTION
     ===================================================== */
     .product-description {
-        margin-top: 18px;
+        margin-top: 20px;
     }
     .product-description h3 {
-        margin-bottom: 7px;
-        font-size: 15px;
+        margin-bottom: 8px;
+        font-size: 16px;
     }
     .product-description p {
         font-size: 13px;
-        line-height: 1.65;
+        line-height: 1.7;
     }
     /* =====================================================
        PROMOTION
     ===================================================== */
     .product-detail-promotion {
         margin-top: 18px;
-        padding: 13px;
-        border-radius: 8px;
+        padding: 14px 13px;
+        border-radius: 9px;
     }
     .promotion-title {
-        margin-bottom: 8px;
+        gap: 7px;
+        margin-bottom: 9px;
         font-size: 13px;
     }
     .promotion-title i {
         font-size: 13px;
     }
     .product-detail-promotion li {
-        margin-bottom: 5px;
+        margin-bottom: 6px;
         padding-left: 14px;
         font-size: 12px;
-        line-height: 1.5;
+        line-height: 1.55;
     }
     /* =====================================================
        CONTACT BUTTON
     ===================================================== */
     .product-contact-btn {
-        min-height: 46px;
-        margin-top: 16px;
-        padding: 12px 13px;
-        border-radius: 7px;
+        min-height: 48px;
+        margin-top: 15px;
+        padding: 12px 14px;
+        border-radius: 8px;
         font-size: 13px;
-        line-height: 1.35;
     }
     /* =====================================================
        COMMITMENT
     ===================================================== */
     .product-content {
-        margin-top: 0;
-        padding-top: 24px;
+        width: 100%;
+        margin-top: 28px;
+        padding-top: 22px;
     }
     .product-content-title {
         gap: 9px;
@@ -2491,6 +2492,7 @@ button {
     }
     .product-content-title h2 {
         font-size: 18px;
+        line-height: 1.35;
     }
     .commit-list {
         grid-template-columns: 1fr;
@@ -2504,7 +2506,7 @@ button {
     .product-content .commit-item>i {
         width: 29px;
         height: 29px;
-        font-size: 12px;
+        font-size: 11px;
     }
     .product-content .commit-item strong {
         margin-bottom: 3px;
@@ -2513,13 +2515,13 @@ button {
     }
     .product-content .commit-item p {
         font-size: 12px;
-        line-height: 1.5;
+        line-height: 1.55;
     }
     /* =====================================================
-       RELATED PRODUCTS
+       RELATED
     ===================================================== */
     .related-products-section {
-        padding-bottom: 38px;
+        padding: 5px 0 40px;
     }
     .related-products-section .categories {
         margin-bottom: 15px;
@@ -2528,7 +2530,7 @@ button {
        ABOUT
     ===================================================== */
     .about-page {
-        padding-top: 26px;
+        padding-top: 28px;
         padding-bottom: 42px;
     }
     .about-title {
@@ -2537,7 +2539,7 @@ button {
     .about-title h1,
     .about-title span,
     .section-heading span {
-        font-size: 28px;
+        font-size: clamp( 25px, 7vw, 29px);
         line-height: 1.25;
     }
     .about-title p {
@@ -2608,7 +2610,7 @@ button {
     }
     .contact-title h1 {
         margin-bottom: 9px;
-        font-size: 26px;
+        font-size: clamp( 24px, 7vw, 28px);
         line-height: 1.25;
     }
     .contact-title p {
@@ -2645,6 +2647,7 @@ button {
         font-size: 13px;
     }
     .contact-box {
+        min-height: 0;
         padding: 28px 18px;
         border-radius: 13px;
     }
@@ -2717,20 +2720,19 @@ button {
         width: 100%;
         min-width: 0;
     }
+    .footer__links {
+        padding-left: 0 !important;
+    }
     .footer h2 {
         font-size: 15px;
     }
     .footer__form h3 {
         font-size: 13px;
-        line-height: 1.5;
     }
     .footer__form p,
     .footer__links ul li,
     .footer__hotline--content p {
         font-size: 13px;
-    }
-    .footer__links {
-        padding-left: 0 !important;
     }
     .social-icons {
         gap: 9px;
@@ -2749,10 +2751,10 @@ button {
 
 /* =========================================================
    VERY SMALL PHONES
-   <= 390px
+   <= 389px
 ========================================================= */
 
-@media (max-width: 390px) {
+@media (max-width: 389px) {
     .container {
         padding-left: 13px;
         padding-right: 13px;
@@ -2788,6 +2790,9 @@ button {
     .categories p {
         font-size: 16px;
     }
+    .product-main-image {
+        aspect-ratio: 1 / 1;
+    }
     .product-detail-info h1 {
         font-size: 19px;
     }
@@ -2796,9 +2801,6 @@ button {
     }
     .product-contact-btn {
         font-size: 12px;
-    }
-    .contact-title h1 {
-        font-size: 24px;
     }
 }
 
@@ -2882,7 +2884,6 @@ button {
     color: #fff;
     cursor: pointer;
     font-size: 15px;
-    font-family: inherit;
 }
 
 .support-floating__top:hover {
@@ -2945,6 +2946,7 @@ button {
 
 .admin-login {
     min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -3090,7 +3092,7 @@ button {
     outline: none;
     background: transparent;
     color: #222;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .admin-login__input input::placeholder {
@@ -3184,7 +3186,6 @@ button {
 
 @media (max-width: 480px) {
     .admin-login {
-        min-height: 100dvh;
         padding: 20px 14px calc( 20px + env(safe-area-inset-bottom));
     }
     .admin-login__box {
@@ -3224,9 +3225,6 @@ button {
         height: 46px;
         padding-left: 12px;
         padding-right: 12px;
-    }
-    .admin-login__input input {
-        font-size: 16px;
     }
     .admin-login__button {
         min-height: 46px;
