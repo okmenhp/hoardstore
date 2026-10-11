@@ -46,7 +46,6 @@ function Contact() {
 
             <div className="contact-card">
               <div className="contact-card-icon">
-                ``
                 <i className="fa-solid fa-comment"></i>
               </div>
 

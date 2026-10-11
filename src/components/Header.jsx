@@ -83,25 +83,25 @@ function Header() {
   // =========================
 
   useEffect(() => {
+    if (!menuOpen) return;
+
     const handleClickOutside = (e) => {
-      if (!menuOpen) return;
+      if (navRef.current?.contains(e.target)) return;
+      if (hamburgerRef.current?.contains(e.target)) return;
 
-      if (navRef.current?.contains(e.target)) {
-        return;
-      }
-
-      if (hamburgerRef.current?.contains(e.target)) {
-        return;
-      }
+      // Chặn click đi tiếp xuống link/nút phía dưới (ví dụ "Xem thêm")
+      e.preventDefault();
+      e.stopPropagation();
 
       setMenuOpen(false);
       setDropdownOpen(false);
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    // true = capture: chạy trước mọi onClick/Link khác trong trang
+    document.addEventListener("click", handleClickOutside, true);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("click", handleClickOutside, true);
     };
   }, [menuOpen]);
 
@@ -252,7 +252,7 @@ function Header() {
             {/* LIÊN HỆ */}
 
             <li className="nav__item">
-              <Link to="/contact" className="nav__link">
+              <Link to="/contact" className="nav__link" onClick={closeMenu}>
                 Liên hệ
               </Link>
             </li>

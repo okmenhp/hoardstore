@@ -1,16 +1,19 @@
 import { Link } from "react-router-dom";
 import { getCloudinaryImageUrl } from "../utils/cloudinary";
-
+import { withWatermark } from "../lib/watermark";
 function ProductCard({ product }) {
   const primaryImage =
     product.product_images?.find((image) => image.is_primary) ||
     product.product_images?.[0];
 
   const imageUrl = primaryImage
-    ? getCloudinaryImageUrl(primaryImage.image_url, {
-        width: 500,
-        height: 500,
-      })
+    ? withWatermark(
+        getCloudinaryImageUrl(primaryImage.image_url, {
+          width: 500,
+          height: 500,
+        }),
+        500,
+      )
     : "";
 
   return (

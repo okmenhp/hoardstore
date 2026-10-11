@@ -7,57 +7,96 @@ function Products() {
   const [products, setProducts] = useState([]);
   const [searchParams] = useSearchParams();
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const search = searchParams.get("search") || "";
+  const keyword = search.trim();
 
   useEffect(() => {
     getProducts();
-  }, [search]);
+  }, [keyword]);
 
   async function getProducts() {
     setError(null);
+    setLoading(true);
 
-    if (!search.trim()) {
-      setProducts([]);
-      return;
-    }
+    try {
+      // =====================================================
+      // QUERY PRODUCTS
+      // =====================================================
 
-    const { data, error } = await supabase
-      .from("products")
-      .select(
-        `
-        *,
-        categories (
-          id,
-          name,
-          slug
+      let query = supabase.from("products").select(`
+          *,
+          categories (
+            id,
+            name,
+            slug
+          ),
+          product_images (
+            id,
+            image_url,
+            is_primary,
+            sort_order
+          )
+        `);
+
+      // =====================================================
+      // SEARCH
+      //
+      // Có keyword:
+      // /products?search=ak12
+      //
+      // Không có keyword:
+      // /products
+      // => lấy tất cả sản phẩm
+      // =====================================================
+
+      if (keyword) {
+        query = query.ilike("name", `%${keyword}%`);
+      }
+
+      // =====================================================
+      // SORT
+      // =====================================================
+
+      query = query.order("id", { ascending: true });
+
+      const { data, error: supabaseError } = await query;
+
+      if (supabaseError) {
+        console.error("Lỗi lấy sản phẩm:", supabaseError);
+        setError(supabaseError.message);
+        setProducts([]);
+        return;
+      }
+
+      // =====================================================
+      // FORMAT PRODUCTS
+      //
+      // Sắp xếp product_images theo sort_order
+      // =====================================================
+
+      const formattedProducts = (data || []).map((product) => ({
+        ...product,
+
+        product_images: [...(product.product_images || [])].sort(
+          (a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0),
         ),
-        product_images (
-          id,
-          image_url,
-          is_primary,
-          sort_order
-        )
-      `,
-      )
-      .ilike("name", `%${search.trim()}%`)
-      .order("id", { ascending: true });
+      }));
 
-    if (error) {
-      console.error(error);
-      setError(error.message);
-      return;
+      setProducts(formattedProducts);
+    } catch (err) {
+      console.error("Lỗi không xác định:", err);
+      setError("Không thể tải danh sách sản phẩm.");
+      setProducts([]);
+    } finally {
+      setLoading(false);
     }
-
-    const formattedProducts = (data || []).map((product) => ({
-      ...product,
-      product_images: [...(product.product_images || [])].sort(
-        (a, b) => a.sort_order - b.sort_order,
-      ),
-    }));
-
-    setProducts(formattedProducts);
   }
+
+  // =========================================================
+  // ERROR
+  // =========================================================
 
   if (error) {
     return (
@@ -72,27 +111,70 @@ function Products() {
     );
   }
 
+  // =========================================================
+  // RENDER
+  // =========================================================
+
   return (
     <main className="products-page">
       <div className="search-results container">
+        {/* =================================================
+            HEADER
+        ================================================= */}
+
         <div className="search-results__top">
-          <p>
-            Có {products.length} kết quả tìm kiếm với từ khóa{" "}
-            <strong>"{search}"</strong>
-          </p>
+          {keyword ? (
+            <p>
+              Có {products.length} kết quả tìm kiếm với từ khóa{" "}
+              <strong>"{keyword}"</strong>
+            </p>
+          ) : (
+            <p>Tất cả sản phẩm</p>
+          )}
         </div>
 
-        {products.length > 0 ? (
+        {/* =================================================
+            LOADING
+        ================================================= */}
+
+        {loading ? (
+          <div className="products-loading">
+            <div className="products-loading__spinner"></div>
+          </div>
+        ) : products.length > 0 ? (
+          /* =================================================
+             PRODUCTS
+          ================================================= */
+
           <div className="products">
             {products.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
         ) : (
+          /* =================================================
+             EMPTY
+          ================================================= */
+
           <div className="products-empty">
             <div className="products-empty__icon"></div>
 
-            <h2>Không tìm thấy sản phẩm</h2>
+            {keyword ? (
+              <>
+                <h2>Không tìm thấy sản phẩm</h2>
+
+                <p>
+                  Không có sản phẩm nào phù hợp với từ khóa{" "}
+                  <strong>"{keyword}"</strong>.
+                </p>
+              </>
+            ) : (
+              <>
+                <h2>Chưa có sản phẩm</h2>
+
+                <p>Hiện chưa có sản phẩm nào được đăng tải.</p>
+              </>
+            )}
           </div>
         )}
       </div>

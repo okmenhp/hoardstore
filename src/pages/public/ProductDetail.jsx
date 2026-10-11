@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Thumbs } from "swiper/modules";
 
 import Breadcrumb from "../../components/Breadcrumb";
+import { withWatermark } from "../../lib/watermark";
 import "swiper/css";
 
 function ProductDetail() {
@@ -212,7 +213,7 @@ function ProductDetail() {
                     <div className="product-main-image">
                       {index === activeImageIndex ? (
                         <img
-                          src={image.image_url}
+                          src={withWatermark(image.image_url)}
                           alt={product.name}
                           fetchPriority={index === 0 ? "high" : "auto"}
                         />
@@ -231,6 +232,8 @@ function ProductDetail() {
                   onSwiper={setThumbsSwiper}
                   spaceBetween={10}
                   slidesPerView={3}
+                  slidesOffsetBefore={2}
+                  slidesOffsetAfter={2}
                   watchSlidesProgress={true}
                   slideToClickedSlide={true}
                   breakpoints={{
@@ -246,7 +249,7 @@ function ProductDetail() {
                     <SwiperSlide key={image.id}>
                       <div className="product-thumb">
                         <img
-                          src={image.image_url}
+                          src={withWatermark(image.image_url)}
                           alt={product.name}
                           loading="lazy"
                           decoding="async"
@@ -263,22 +266,22 @@ function ProductDetail() {
             ========================= */}
 
             <div className="product-detail-info">
+              {/* CATEGORY */}
               <span className="product-detail-category">
                 {product.categories?.name}
               </span>
 
+              {/* NAME */}
               <h1>{product.name}</h1>
 
+              {/* PRICE */}
               <div className="product-detail-price">
                 {Number(product.price).toLocaleString("vi-VN")}đ
               </div>
 
               <div className="product-detail-line"></div>
 
-              {/* =========================
-                  PRODUCT META
-              ========================= */}
-
+              {/* PRODUCT META */}
               <div className="product-meta">
                 <div className="product-meta-item">
                   <span>Tình trạng</span>
@@ -308,40 +311,60 @@ function ProductDetail() {
 
                   <strong>{product.material || "Đang cập nhật"}</strong>
                 </div>
+
+                <div className="product-meta-item">
+                  <span>Danh mục</span>
+
+                  <strong>{product.categories?.name || "Đang cập nhật"}</strong>
+                </div>
               </div>
 
-              <div className="product-description">
-                <h3>Thông tin sản phẩm</h3>
-
-                <p>
-                  {product.content ||
-                    product.description ||
-                    "Nội dung đang cập nhật..."}
-                </p>
-              </div>
-
-              {/* =========================
-                  PROMOTION
-              ========================= */}
-
+              {/* PROMOTION */}
               <div className="product-detail-promotion">
                 <div className="promotion-title">
                   <i className="fa-solid fa-gift"></i>
-
                   <span>Chương trình khuyến mãi</span>
                 </div>
 
                 <ul>
-                  <li>Miễn ship đơn hàng từ 500.000đ</li>
-
+                  <li>Miễn phí ship đơn hàng từ 500.000đ</li>
                   <li>Tặng kèm giá đỡ cho đơn hàng từ 300.000đ</li>
                 </ul>
               </div>
 
-              {/* =========================
-                  CONTACT
-              ========================= */}
+              {/* SERVICE */}
+              <div className="product-detail-service">
+                <div className="product-service-item">
+                  <i className="fa-solid fa-circle-check"></i>
 
+                  <div>
+                    <strong>Kiểm tra trước khi gửi</strong>
+                    <span>Sản phẩm được kiểm tra kỹ trước khi đóng gói.</span>
+                  </div>
+                </div>
+
+                <div className="product-service-item">
+                  <i className="fa-solid fa-box"></i>
+
+                  <div>
+                    <strong>Đóng gói cẩn thận</strong>
+                    <span>
+                      Hạn chế tối đa va đập trong quá trình vận chuyển.
+                    </span>
+                  </div>
+                </div>
+
+                <div className="product-service-item">
+                  <i className="fa-solid fa-headset"></i>
+
+                  <div>
+                    <strong>Hỗ trợ tư vấn</strong>
+                    <span>Liên hệ để được tư vấn thêm về sản phẩm.</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* CONTACT */}
               <a
                 href="https://zalo.me/0862074660"
                 target="_blank"
@@ -354,55 +377,6 @@ function ProductDetail() {
 
                 <i className="fa-solid fa-arrow-right"></i>
               </a>
-            </div>
-
-            {/* =========================
-                COMMITMENT
-            ========================= */}
-
-            <div className="product-content">
-              <div className="product-content-wrap">
-                <div className="product-content-title">
-                  <span></span>
-
-                  <h2>HoardStore cam kết</h2>
-                </div>
-
-                <div className="commit-list">
-                  <div className="commit-item">
-                    <i className="fa-solid fa-check"></i>
-
-                    <div>
-                      <strong>Sản phẩm chính hãng</strong>
-
-                      <p>Sản phẩm được kiểm tra kỹ trước khi gửi.</p>
-                    </div>
-                  </div>
-
-                  <div className="commit-item">
-                    <i className="fa-solid fa-check"></i>
-
-                    <div>
-                      <strong>Chất lượng đảm bảo</strong>
-
-                      <p>
-                        Đóng gói cẩn thận, hạn chế tối đa hư hỏng khi vận
-                        chuyển.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="commit-item">
-                    <i className="fa-solid fa-check"></i>
-
-                    <div>
-                      <strong>Giá cả hợp lý</strong>
-
-                      <p>Giá sản phẩm được cập nhật rõ ràng và minh bạch.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -447,7 +421,7 @@ function ProductDetail() {
                       <div className="product-img">
                         {primaryImage ? (
                           <img
-                            src={primaryImage.image_url}
+                            src={withWatermark(primaryImage.image_url)}
                             alt={item.name}
                             loading="lazy"
                             decoding="async"
