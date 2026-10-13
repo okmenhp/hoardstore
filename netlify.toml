@@ -2,6 +2,11 @@
   command = "npm run build"
   publish = "dist"
   functions = "netlify/functions"
-  [[edge_functions]]
+
+[[edge_functions]]
   path = "/products/*"
   function = "og-preview"
+
+[[edge_functions]]
+  path = "/sitemap.xml"
+  function = "sitemap"

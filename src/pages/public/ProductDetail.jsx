@@ -21,6 +21,7 @@ function ProductDetail() {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     fetchProduct();
   }, [categorySlug, productSlug]);
 
@@ -91,6 +92,8 @@ function ProductDetail() {
       // Không chờ sản phẩm liên quan.
       setProduct(productWithSortedImages);
       setLoading(false);
+      // Đảm bảo ở đầu trang (iPhone đôi khi giữ vị trí cuộn cũ)
+      window.scrollTo(0, 0);
 
       // Lấy sản phẩm liên quan ở phía sau.
       fetchRelatedProducts(data);
@@ -126,7 +129,8 @@ function ProductDetail() {
           `,
         )
         .eq("category_id", currentProduct.category_id)
-        .neq("id", currentProduct.id);
+        .neq("id", currentProduct.id)
+        .limit(8);
 
       if (relatedError) {
         console.error("Lỗi lấy sản phẩm liên quan:", relatedError);
@@ -164,9 +168,38 @@ function ProductDetail() {
   const images = [...(product.product_images || [])].sort(
     (a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0),
   );
+  // JSON-LD cho Google (hiện giá + ảnh trên kết quả tìm kiếm)
+  const seoPrimaryImage = images.find((img) => img.is_primary) || images[0];
+  const seoJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    image: seoPrimaryImage ? [seoPrimaryImage.image_url] : [],
+    description:
+      "Mô hình " +
+      product.name +
+      " trưng bày chất lượng tại HoardStore. Liên hệ mua hàng nhanh qua Zalo.",
+    brand: {
+      "@type": "Brand",
+      name:
+        product.categories && product.categories.name
+          ? product.categories.name
+          : "HoardStore",
+    },
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "VND",
+      price: String(product.price == null ? 0 : product.price),
+      availability: "https://schema.org/InStock",
+    },
+  };
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(seoJsonLd) }}
+      />
       <Breadcrumb
         items={[
           {

@@ -1,8 +1,8 @@
 // ============================================================
-// OG PREVIEW CHO BOT (Zalo / Facebook / Telegram...)
+// OG PREVIEW CHO BOT (Zalo / Facebook / WhatsApp / Telegram...)
 // ------------------------------------------------------------
-// Khi bot của Zalo/Facebook vào link sản phẩm để lấy ảnh
-// preview, function này trả về một trang HTML mini chỉ chứa
+// Khi bot của Zalo/Facebook/WhatsApp vào link sản phẩm để lấy
+// ảnh preview, function này trả về một trang HTML mini chỉ chứa
 // thẻ og:title / og:description / og:image của đúng sản phẩm.
 //
 // Người thật thì function trả về undefined -> Netlify phục vụ
@@ -22,6 +22,7 @@ const BOT_PATTERNS = [
     "slackbot",
     "telegrambot",
     "discordbot",
+    "whatsapp",
     "zalo",
     "zaloapp",
     "pinterest",
@@ -44,7 +45,7 @@ function isBot(userAgent) {
 }
 
 function escapeHtml(value) {
-    return String(value ?? "")
+    return String(value == null ? "" : value)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
@@ -154,7 +155,9 @@ export default async(request) => {
         }
 
         const images = [...(product.product_images || [])].sort(
-            (a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0),
+            (a, b) =>
+            (a.sort_order == null ? 0 : a.sort_order) -
+            (b.sort_order == null ? 0 : b.sort_order),
         );
 
         const primary = images.find((image) => image.is_primary) || images[0];
@@ -164,8 +167,7 @@ export default async(request) => {
         if (primary && primary.image_url) {
             image = primary.image_url;
 
-            // Ảnh Cloudinary: resize về chuẩn preview MXH 1200x630,
-            // đặt trước watermark nên không vỡ chữ ký
+            // Ảnh Cloudinary: resize về chuẩn preview MXH 1200x630
             if (
                 image.includes("res.cloudinary.com") &&
                 image.includes("/image/upload/")
@@ -177,11 +179,9 @@ export default async(request) => {
             }
         }
 
-        const price = Number(product.price || 0).toLocaleString("vi-VN");
-
         return htmlResponse({
-            title: `${product.name} - ${price}đ | HoardStore`,
-            description: `${product.name} giá ${price}đ. ${DEFAULT_DESC}`,
+            title: `${product.name} | HoardStore`,
+            description: `${product.name}. ${DEFAULT_DESC}`,
             image,
             url: url.href,
         });

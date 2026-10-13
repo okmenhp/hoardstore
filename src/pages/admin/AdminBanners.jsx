@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabaseClient";
+import { deleteCloudinaryImages } from "../../lib/cloudinaryDelete";
 
 const CLOUDINARY_CLOUD_NAME = "dbs8zsq5w";
 const CLOUDINARY_UPLOAD_PRESET = "hoardstore_upload";
@@ -138,15 +139,7 @@ function AdminBanners() {
       if (error) {
         // Nếu DB insert lỗi thì cố gắng xóa ảnh Cloudinary
         try {
-          await fetch("/.netlify/functions/delete-cloudinary-images", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              imageUrls: [imageUrl],
-            }),
-          });
+          await deleteCloudinaryImages(imageUrls);
         } catch (deleteError) {
           console.error("Rollback Cloudinary error:", deleteError);
         }
@@ -350,15 +343,7 @@ function AdminBanners() {
       // -----------------------------------------------------
 
       try {
-        await fetch("/.netlify/functions/delete-cloudinary-images", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            imageUrls: [banner.image_url],
-          }),
-        });
+        await deleteCloudinaryImages([banner.image_url]);
       } catch (cloudinaryError) {
         console.error("Cloudinary delete error:", cloudinaryError);
       }

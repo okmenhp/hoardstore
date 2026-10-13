@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../../lib/supabaseClient";
+import { deleteCloudinaryImages } from "../../lib/cloudinaryDelete";
 
 function AdminProducts() {
   const [products, setProducts] = useState([]);
@@ -159,18 +160,7 @@ function AdminProducts() {
       // =====================================
 
       if (imageUrls.length > 0) {
-        const response = await fetch(
-          "/.netlify/functions/delete-cloudinary-images",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              imageUrls,
-            }),
-          },
-        );
+        const response = await deleteCloudinaryImages(imageUrls);
 
         // Không dùng response.json() trực tiếp
         // để tránh lỗi Unexpected end of JSON input
